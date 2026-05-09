@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Cargando…</title>
+  <meta name="description" id="pageDesc" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="uploads/MAIVON png.png">
+  <style>html { background: #F5F5F0; }</style>
+
+  <style>
+    /* ── TOKENS — sobreescritos por JS desde CONFIG.colores ── */
+    :root {
+      --color-verde:      #0CAA58;
+      --color-verde-dark: #09844a;
+      --color-oscuro:     #1A1A1D;
+      --color-fondo:      #F5F5F0;
+      --color-fondo-alt:  #EAEAE4;
+      --color-gris:       #6B6B6B;
+      --color-blanco:     #FAFAF8;
+      --color-borde:      rgba(26,26,29,0.09);
+
+      --sombra-card: 0 2px 20px rgba(26,26,29,0.07);
+
+      --fuente-titulo: 'Playfair Display', Georgia, serif;
+      --fuente-cuerpo: 'DM Sans', Helvetica Neue, sans-serif;
+
+      --radio: 6px;
+      --nav-h: 64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--fuente-cuerpo);
+      background: var(--color-fondo);
+      color: var(--color-oscuro);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ── NAVBAR ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      height: var(--nav-h);
+      background: rgba(245,245,240,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-borde);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .nav-logo img { height: 52px; width: auto; }
+    .nav-logo-text {
+      font-family: var(--fuente-titulo);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-oscuro);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo-text span { color: var(--color-verde); }
+
+    .nav-links {
+      display: none;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--color-oscuro);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--color-verde); }
+
+    .nav-cta { display: none; }
+
+    .hamburger {
+      display: flex; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--color-oscuro); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 899;
+      background: var(--color-blanco);
+      border-bottom: 1px solid var(--color-borde);
+      padding: 1.5rem;
+      flex-direction: column; gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      display: block;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--color-oscuro);
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--color-borde);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--color-verde); }
+
+    /* ── BOTONES ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radio);
+      font-family: var(--fuente-cuerpo);
+      font-weight: 600; font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, color 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-verde {
+      background: var(--color-verde); color: white;
+    }
+    .btn-verde:hover { background: var(--color-verde-dark); }
+
+    .btn-ghost-white {
+      background: transparent;
+      border-color: rgba(255,255,255,0.5);
+      color: white;
+    }
+    .btn-ghost-white:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+    .btn-outline-verde {
+      background: transparent;
+      border-color: var(--color-verde);
+      color: var(--color-verde);
+    }
+    .btn-outline-verde:hover { background: var(--color-verde); color: white; }
+
+    .btn-blanco {
+      background: white; color: var(--color-verde);
+    }
+    .btn-blanco:hover { background: var(--color-fondo); }
+
+    .btn svg { flex-shrink: 0; }
+
+    /* ── ESTRUCTURA SECCIONES ── */
+    section { padding: 5rem 1.5rem; }
+
+    .inner { max-width: 1100px; margin: 0 auto; }
+
+    .sec-label {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--color-verde);
+      margin-bottom: 0.6rem;
+    }
+    .sec-title {
+      font-family: var(--fuente-titulo);
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 700; line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .sec-sub {
+      color: var(--color-gris);
+      font-size: 1rem; line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── 1. HERO ── */
+    #hero {
+      background: var(--color-oscuro);
+      color: white;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: calc(var(--nav-h) + 3rem) 1.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .hero-glow-1 {
+      width: 500px; height: 500px;
+      top: -150px; right: -150px;
+      background: radial-gradient(circle, rgba(12,170,88,0.13) 0%, transparent 65%);
+    }
+    .hero-glow-2 {
+      width: 300px; height: 300px;
+      bottom: -80px; left: -80px;
+      background: radial-gradient(circle, rgba(12,170,88,0.08) 0%, transparent 65%);
+    }
+    .hero-body { position: relative; z-index: 1; max-width: 720px; }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--color-verde);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: var(--fuente-titulo);
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 700; line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title .accent { color: var(--color-verde); }
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: rgba(255,255,255,0.65);
+      font-weight: 300; line-height: 1.75;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+    /* ── 2. SERVICIOS ── */
+    #servicios { background: var(--color-fondo); }
+    .grid-servicios {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .card-servicio {
+      background: white;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      box-shadow: var(--sombra-card);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card-servicio:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 36px rgba(26,26,29,0.11);
+    }
+    .card-servicio-nombre {
+      font-family: var(--fuente-titulo);
+      font-size: 1.25rem; font-weight: 600;
+    }
+    .card-servicio-desc {
+      color: var(--color-gris);
+      font-size: 0.9rem; line-height: 1.75; flex-grow: 1;
+    }
+    .card-servicio-precio {
+      font-family: var(--fuente-titulo);
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--color-verde);
+    }
+
+    /* ── 3. POR QUÉ ── */
+    #porque { background: var(--color-fondo-alt); }
+    .grid-porque {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .item-porque { display: flex; flex-direction: column; gap: 0.85rem; }
+    .icon-porque {
+      width: 48px; height: 48px;
+      background: var(--color-verde);
+      border-radius: var(--radio);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-porque svg {
+      width: 22px; height: 22px;
+      stroke: white; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .item-porque-titulo {
+      font-family: var(--fuente-titulo);
+      font-size: 1.1rem; font-weight: 600;
+    }
+    .item-porque-texto { color: var(--color-gris); font-size: 0.9rem; line-height: 1.75; }
+
+    /* ── 4. GALERÍA ── */
+    #galeria { background: var(--color-fondo); }
+    .grid-galeria {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.875rem;
+    }
+    .galeria-cell {
+      aspect-ratio: 4/3;
+      border-radius: var(--radio);
+      overflow: hidden;
+      background: var(--color-fondo-alt);
+    }
+    .galeria-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 10px,
+        rgba(26,26,29,0.035) 10px, rgba(26,26,29,0.035) 20px
+      );
+    }
+    .galeria-placeholder span {
+      font-family: monospace; font-size: 0.7rem;
+      color: var(--color-gris); text-align: center;
+      padding: 0.5rem;
+    }
+
+    /* ── 5. TESTIMONIOS ── */
+    #testimonios { background: var(--color-oscuro); color: white; }
+    #testimonios .sec-label { color: rgba(255,255,255,0.45); }
+    #testimonios .sec-title { color: white; }
+    #testimonios .sec-sub { color: rgba(255,255,255,0.55); }
+    .grid-testimonios {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .card-testimonio {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--radio);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .stars { color: var(--color-verde); font-size: 0.9rem; letter-spacing: 0.1em; }
+    .testimonio-texto {
+      font-style: italic;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.95rem; line-height: 1.8; flex-grow: 1;
+    }
+    .testimonio-autor { display: flex; align-items: center; gap: 1rem; }
+    .testimonio-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--color-verde);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; color: white;
+      flex-shrink: 0;
+    }
+    .testimonio-nombre { font-weight: 600; font-size: 0.9rem; }
+    .testimonio-negocio { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-top: 0.1rem; }
+
+    /* ── 6. UBICACIÓN ── */
+    #ubicacion { background: var(--color-fondo); }
+    .grid-ubicacion {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .mapa-wrap {
+      border-radius: var(--radio);
+      overflow: hidden;
+      height: 320px;
+      border: 1px solid var(--color-borde);
+    }
+    .mapa-wrap iframe { width: 100%; height: 100%; border: none; }
+    .mapa-placeholder {
+      width: 100%; height: 100%;
+      background: var(--color-fondo-alt);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.75rem;
+    }
+    .mapa-placeholder svg { width: 36px; height: 36px; stroke: var(--color-verde); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .mapa-placeholder p { font-size: 0.85rem; color: var(--color-gris); text-align: center; }
+    .mapa-link { margin-top: 0.25rem; }
+    .info-ubicacion { display: flex; flex-direction: column; gap: 1.5rem; }
+    .info-row {
+      display: flex; align-items: flex-start; gap: 0.875rem;
+    }
+    .info-row svg {
+      width: 20px; height: 20px; flex-shrink: 0;
+      stroke: var(--color-verde); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      margin-top: 2px;
+    }
+    .info-row-titulo { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.25rem; }
+    .info-row-texto { font-size: 0.9rem; color: var(--color-gris); line-height: 1.6; }
+    .horario-item {
+      display: flex; justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--color-borde);
+      font-size: 0.875rem;
+    }
+    .horario-item:last-child { border-bottom: none; }
+    .horario-dia { font-weight: 500; }
+    .horario-hora { color: var(--color-gris); }
+
+    /* ── 7. CTA FINAL ── */
+    #cta-final {
+      background: var(--color-verde);
+      color: white;
+      text-align: center;
+    }
+    .cta-titulo {
+      font-family: var(--fuente-titulo);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .cta-sub {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 480px; margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--color-oscuro);
+      color: rgba(255,255,255,0.55);
+      padding: 3.5rem 1.5rem 2rem;
+    }
+    .footer-top {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 1.5rem;
+    }
+    .footer-brand-name {
+      font-family: var(--fuente-titulo);
+      font-size: 1.4rem; font-weight: 700;
+      color: white; letter-spacing: -0.02em;
+    }
+    .footer-brand-name span { color: var(--color-verde); }
+    .footer-brand-tagline { font-size: 0.82rem; margin-top: 0.25rem; color: rgba(255,255,255,0.38); }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links li a {
+      font-size: 0.85rem; text-decoration: none;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+    }
+    .footer-links li a:hover { color: var(--color-verde); }
+    .footer-social { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-social a {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; text-decoration: none;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+    }
+    .footer-social a svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .footer-social a:hover { color: var(--color-verde); }
+    .footer-bottom {
+      max-width: 1100px; margin: 0 auto;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.28);
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between; gap: 0.5rem;
+    }
+
+    /* ── ANIMACIONES ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── BREAKPOINTS ── */
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+      .nav-cta   { display: block; }
+      .hamburger { display: none; }
+
+      .grid-servicios  { grid-template-columns: repeat(3, 1fr); }
+      .grid-porque     { grid-template-columns: repeat(2, 1fr); }
+      .grid-galeria    { grid-template-columns: repeat(3, 1fr); }
+      .grid-testimonios { grid-template-columns: repeat(3, 1fr); }
+      .grid-ubicacion  { grid-template-columns: 1fr 1fr; align-items: start; }
+
+      .footer-top {
+        flex-direction: row; flex-wrap: wrap; gap: 3rem;
+        align-items: flex-start;
+      }
+      .footer-links { flex-direction: row; gap: 1.5rem; }
+      .footer-social { flex-direction: row; gap: 1.25rem; }
+    }
+
+    @media (min-width: 1024px) {
+      .grid-porque { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ── SPLASH / LOADING SCREEN ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #F5F5F0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2.5rem;
+      transition: opacity 0.55s ease, visibility 0.55s ease;
+    }
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-logo {
+      width: 110px; height: 110px;
+      object-fit: contain;
+      animation: splash-pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes splash-pulse {
+      0%, 100% { opacity: 1;   transform: scale(1);    }
+      50%       { opacity: 0.7; transform: scale(0.94); }
+    }
+    .splash-bar-wrap {
+      width: min(260px, 60vw);
+      height: 3px;
+      background: rgba(26,26,29,0.1);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .splash-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--color-verde);
+      border-radius: 99px;
+      transition: width 0.12s linear;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ SPLASH / LOADING SCREEN ═══ -->
+  <div id="splash">
+    <img class="splash-logo" src="uploads/MAIVON png.png" alt="MAIVON">
+    <div class="splash-bar-wrap">
+      <div class="splash-bar" id="splashBar"></div>
+    </div>
+  </div>
+  <script>
+    /* Arranca inmediatamente — antes de renderizar el resto del body */
+    (function() {
+      var bar     = document.getElementById('splashBar');
+      var splash  = document.getElementById('splash');
+      var prog    = 0;
+      var tick    = setInterval(function() {
+        prog += Math.random() * 18 + 6;
+        if (prog >= 100) {
+          prog = 100;
+          bar.style.width = '100%';
+          clearInterval(tick);
+          setTimeout(function() { splash.classList.add('hidden'); }, 320);
+        } else {
+          bar.style.width = prog + '%';
+        }
+      }, 80);
+      /* Fallback: forzar cierre en 3.5s */
+      setTimeout(function() {
+        clearInterval(tick);
+        bar.style.width = '100%';
+        setTimeout(function() { splash.classList.add('hidden'); }, 320);
+      }, 3500);
+    })();
+  </script>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="#hero" id="navLogo" aria-label="Inicio">
+      <!-- Logo se inyecta por JS: imagen si CONFIG.logo.horizontal existe, texto si no -->
+    </a>
+    <ul class="nav-links" id="navLinks" role="list"></ul>
+    <a class="btn btn-verde nav-cta" id="navCta" href="#" target="_blank" rel="noopener noreferrer">
+      <!-- texto inyectado por JS -->
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MENÚ MOBILE -->
+  <div class="mobile-menu" id="mobileMenu" role="navigation"></div>
+
+  <!-- ═══ 1. HERO ═══ -->
+  <section id="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-body">
+      <p class="hero-eyebrow" id="heroEyebrow"></p>
+      <h1 class="hero-title" id="heroTitle"></h1>
+      <p class="hero-sub"   id="heroSub"></p>
+      <div class="hero-btns" id="heroBtns"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 2. SERVICIOS ═══ -->
+  <section id="servicios">
+    <div class="inner">
+      <p class="sec-label reveal" id="serviciosLabel"></p>
+      <h2 class="sec-title reveal" id="serviciosTitulo"></h2>
+      <p class="sec-sub reveal"   id="serviciosSubtitulo"></p>
+      <div class="grid-servicios" id="gridServicios"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 3. POR QUÉ NOSOTROS ═══ -->
+  <section id="porque">
+    <div class="inner">
+      <p class="sec-label reveal" id="porqueLabel"></p>
+      <h2 class="sec-title reveal" id="porqueTitulo"></h2>
+      <p class="sec-sub reveal"   id="porqueSubtitulo"></p>
+      <div class="grid-porque" id="gridPorque"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 4. GALERÍA ═══ -->
+  <section id="galeria">
+    <div class="inner">
+      <p class="sec-label reveal" id="galeriaLabel"></p>
+      <h2 class="sec-title reveal" id="galeriaTitulo"></h2>
+      <p class="sec-sub reveal"   id="galeriaSubtitulo"></p>
+      <div class="grid-galeria" id="gridGaleria"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 5. TESTIMONIOS ═══ -->
+  <section id="testimonios">
+    <div class="inner">
+      <p class="sec-label reveal" id="testimoniosLabel"></p>
+      <h2 class="sec-title reveal" id="testimoniosTitulo"></h2>
+      <p class="sec-sub reveal"   id="testimoniosSubtitulo"></p>
+      <div class="grid-testimonios" id="gridTestimonios"></div>
+    </div>
+  </section>
+
+  <!-- ═══ 6. UBICACIÓN ═══ -->
+  <section id="ubicacion">
+    <div class="inner">
+      <p class="sec-label reveal" id="ubicacionLabel"></p>
+      <h2 class="sec-title reveal" id="ubicacionTitulo"></h2>
+      <div class="grid-ubicacion">
+        <div class="mapa-wrap reveal" id="mapaWrap"></div>
+        <div class="info-ubicacion reveal" id="infoUbicacion"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 7. CTA FINAL ═══ -->
+  <section id="cta-final">
+    <div class="inner">
+      <h2 class="cta-titulo reveal" id="ctaTitulo"></h2>
+      <p class="cta-sub reveal"    id="ctaSubtitulo"></p>
+      <a class="btn btn-blanco reveal" id="ctaBtn" style="display:inline-flex;margin:0 auto;" href="#" target="_blank" rel="noopener noreferrer"></a>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer style="color: rgb(255, 255, 255)">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name" id="footerNombre"></div>
+        <div class="footer-brand-tagline" id="footerTagline"></div>
+      </div>
+      <ul class="footer-links" id="footerLinks" role="list"></ul>
+      <div class="footer-social" id="footerSocial"></div>
+    </div>
+    <div class="footer-bottom" id="footerBottom"></div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CONFIG — Personaliza aquí TODA la página.
+       Para adaptar a otro negocio, cambia solo este objeto.
+  ═══════════════════════════════════════════════════════════════════ -->
+  <script>
+    /* ── CONFIG ─────────────────────────────────────────────────── */
+    const CONFIG = {
+
+      /* ── IDENTIDAD ──────────────────────────────────────────────── */
+      nombre:    "MAIVON",
+      giro:      "Agencia de Inteligencia Artificial",
+      tagline:   "Vuelve tu a negocio más inteligente",
+      descripcion: "Hacemos tu negocio más inteligente con soluciones de IA. Automatización, datos y tecnología al servicio de tus resultados.",
+
+      /* ── CONTACTO PRINCIPAL ──────────────────────────────────────
+         tipo:  "whatsapp" | "instagram" | "email" | "telefono"
+         valor: según el tipo —
+           whatsapp  → número con código de país, sin signos  "526674683970"
+           instagram → usuario sin @                          "mi_negocio"
+           email     → dirección de correo                   "hola@minegocio.com"
+           telefono  → número con código de país             "+526671234567"
+         Todos los botones de contacto usan este valor automáticamente.
+      ──────────────────────────────────────────────────────────── */
+      contacto: {
+        tipo:  "instagram",
+        valor: "maivon.ai",
+      },
+
+      /* ── COLORES ─────────────────────────────────────────────────
+         Cambia estos valores para recolorear toda la página.
+      ──────────────────────────────────────────────────────────── */
+      colores: {
+        verde:      "#0CAA58",   /* color de acento / CTA */
+        verdeOscuro:"#09844a",   /* hover del acento */
+        oscuro:     "#1A1A1D",   /* texto principal y fondos oscuros */
+        fondo:      "#F5F5F0",   /* fondo general */
+        fondoAlt:   "#EAEAE4",   /* fondo de secciones alternas */
+        gris:       "#6B6B6B",   /* texto secundario */
+      },
+
+      /* ── LOGOS ───────────────────────────────────────────────────
+         Rutas a los archivos de logo.
+         horizontal: logo + texto en línea (para navbar)
+         vertical:   logo + texto apilado
+         icono:      solo el símbolo
+         texto:      solo el texto
+         Si alguno no existe, deja la cadena vacía "".
+         La navbar usa horizontal; si está vacío, muestra el nombre en texto.
+      ──────────────────────────────────────────────────────────── */
+      logo: {
+        horizontal: "uploads/MAIVON png.png",
+        vertical:   "uploads/MAIVON AI.png",
+        icono:      "uploads/MAIVON.png",
+        texto:      "uploads/MAIVON text.png",
+      },
+
+      /* ── NAVEGACIÓN ──────────────────────────────────────────── */
+      nav: {
+        ctaTexto:  "Instagram",
+        ctaMensaje: "Hola, me gustaría recibir información sobre sus servicios.",
+        links: [
+          { etiqueta: "Servicios",    href: "#servicios" },
+          { etiqueta: "Nosotros",     href: "#porque" },
+          { etiqueta: "Galería",      href: "#galeria" },
+          { etiqueta: "Testimonios",  href: "#testimonios" },
+          { etiqueta: "Contacto",     href: "#ubicacion" },
+        ],
+      },
+
+      /* ── SECCIÓN 1: HERO ─────────────────────────────────────── */
+      hero: {
+        eyebrow:   "Agencia de Inteligencia Artificial",
+        titulo:    "Vuelve tu a negocio más inteligente", /* Usa <span class='accent'>texto</span> para resaltar en verde */
+        subtitulo: "Hacemos tu negocio más inteligente con soluciones de IA. Automatización, datos y tecnología al servicio de tus resultados.",
+        ctaTexto:  "Contáctanos por Instagram",
+        ctaMensaje:"Hola MAIVON, me gustaría recibir información sobre sus servicios.",
+        btn2Texto: "Ver servicios",
+        btn2Href:  "#servicios",
+      },
+
+      /* ── SECCIÓN 2: SERVICIOS ────────────────────────────────── */
+      servicios: {
+        label:     "Lo que hacemos",
+        titulo:    "Nuestros Servicios",
+        subtitulo: "Soluciones de inteligencia artificial diseñadas para que tu negocio trabaje de forma más inteligente.",
+        items: [
+          {
+            nombre:    "Página Web Básica",
+            descripcion: "Tu presencia digital profesional, lista para atraer clientes. Diseño limpio, rápido y optimizado para móvil.",
+            precio:    "$600/mes",
+            mensaje: "Hola MAIVON, me interesa la Página Web Básica. ¿Me pueden dar más información?",
+          },
+          {
+            nombre:    "ChatBot para Pedidos",
+            descripcion: "Automatiza la recepción de pedidos con un asistente inteligente que trabaja 24/7 sin descanso ni errores.",
+            precio:    "$900/mes",
+            mensaje: "Hola MAIVON, me interesa el ChatBot para Pedidos. ¿Me pueden dar más información?",
+          },
+          {
+            nombre:    "Estudio de Mercado",
+            descripcion: "Análisis profundo de tu mercado y competencia. Datos reales para tomar decisiones inteligentes y ganar terreno.",
+            precio:    "$500 (pago único)",
+            mensaje: "Hola MAIVON, me interesa el Estudio de Mercado. ¿Me pueden dar más información?",
+          },
+        ],
+        btnTexto: "Consultar por Instagram",
+      },
+
+      /* ── SECCIÓN 3: POR QUÉ NOSOTROS ───────────────────────── */
+      porqueNosotros: {
+        label:     "Nuestra diferencia",
+        titulo:    "¿Por qué MAIVON?",
+        subtitulo: "No somos solo tecnología. Somos el socio que tu negocio necesitaba para crecer.",
+        items: [
+          {
+            titulo: "Tecnología real",
+            texto:  "Sin palabrería. Implementamos IA que funciona desde el primer día en tu operación.",
+            icono:  "bolt",
+          },
+          {
+            titulo: "A tu medida",
+            texto:  "Cada negocio es único. Diseñamos la solución correcta para tus objetivos específicos.",
+            icono:  "edit",
+          },
+          {
+            titulo: "Soporte continuo",
+            texto:  "No desaparecemos al entregar. Estamos contigo en cada paso del camino.",
+            icono:  "headset",
+          },
+          {
+            titulo: "Resultados medibles",
+            texto:  "Métricas claras. Ves el impacto de la IA en tu negocio en tiempo real.",
+            icono:  "chart",
+          },
+        ],
+      },
+
+      /* ── SECCIÓN 4: GALERÍA ──────────────────────────────────── */
+      galeria: {
+        label:     "Nuestro trabajo",
+        titulo:    "Galería",
+        subtitulo: "Proyectos reales, resultados comprobables.",
+        items: [
+          { alt: "proyecto · sitio web" },
+          { alt: "proyecto · chatbot" },
+          { alt: "proyecto · análisis" },
+          { alt: "proyecto · dashboard" },
+          { alt: "proyecto · automatización" },
+          { alt: "proyecto · cliente" },
+        ],
+      },
+
+      /* ── SECCIÓN 5: TESTIMONIOS ──────────────────────────────── */
+      testimonios: {
+        label:     "Lo que dicen",
+        titulo:    "Clientes satisfechos",
+        subtitulo: "La confianza de nuestros clientes es nuestro mejor activo.",
+        items: [
+          {
+            texto:    "MAIVON transformó la manera en que recibimos pedidos. El ChatBot trabaja las 24 horas y nuestros clientes lo aman.",
+            nombre:   "Carlos M.",
+            negocio:  "Restaurante El Portillo",
+            iniciales:"CM",
+          },
+          {
+            texto:    "Nuestra página web ahora atrae más clientes que nunca. El equipo sabe exactamente lo que hace.",
+            nombre:   "Laura R.",
+            negocio:  "Boutique Rosales",
+            iniciales:"LR",
+          },
+          {
+            texto:    "El estudio de mercado nos abrió los ojos. Encontramos oportunidades que no habíamos visto en años.",
+            nombre:   "Andrés V.",
+            negocio:  "Distribuidora Valle Alto",
+            iniciales:"AV",
+          },
+        ],
+      },
+
+      /* ── SECCIÓN 6: UBICACIÓN ────────────────────────────────── */
+      ubicacion: {
+        label:     "Encuéntranos",
+        titulo:    "Ubicación y Horarios",
+        direccion: "Plaza Punto, Blvd. Álvaro del Portillo 2625, Valle Alto, 80050 Culiacán Rosales, Sin.",
+        mapaQuery: "Plaza Punto, Blvd. Álvaro del Portillo 2625, Valle Alto, 80050 Culiacán Rosales, Sin.",
+        horarios: [
+          { dia: "Lunes – Viernes", hora: "9:00 am – 6:00 pm" },
+          { dia: "Sábado",          hora: "10:00 am – 2:00 pm" },
+          { dia: "Domingo",         hora: "Cerrado" },
+        ],
+      },
+
+      /* ── SECCIÓN 7: CTA FINAL ────────────────────────────────── */
+      ctaFinal: {
+        titulo:    "¿Listo para hacer tu negocio más inteligente?",
+        subtitulo: "Da el primer paso hoy. Nuestro equipo está listo para escucharte.",
+        btnTexto:  "Escríbenos por Instagram",
+        mensaje: "Hola MAIVON, quiero hacer mi negocio más inteligente. ¿Por dónde empezamos?",
+      },
+
+      /* ── FOOTER ──────────────────────────────────────────────── */
+      footer: {
+        links: [
+          { etiqueta: "Servicios",   href: "#servicios" },
+          { etiqueta: "Nosotros",    href: "#porque" },
+          { etiqueta: "Galería",     href: "#galeria" },
+          { etiqueta: "Testimonios", href: "#testimonios" },
+          { etiqueta: "Contacto",    href: "#ubicacion" },
+        ],
+        redesSociales: [
+          {
+            red:     "Instagram",
+            url:     "https://instagram.com/maivon.ai",
+            usuario: "@maivon.ai",
+            icono:   "instagram",
+          },
+        ],
+        /* texto de copyright — usa {año} y {nombre} como placeholders */
+        copyright: "© {año} {nombre}. Todos los derechos reservados.",
+        desarrolladoPor: "Desarrollado por MAIVON",
+      },
+
+    }; /* fin CONFIG */
+
+    /* ═══════════════════════════════════════════════════════════════
+       UTILIDADES
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* Genera el link de contacto según CONFIG.contacto.tipo */
+    function contactLink(mensaje) {
+      var c = CONFIG.contacto;
+      switch (c.tipo) {
+        case 'whatsapp':  return 'https://wa.me/' + c.valor + '?text=' + encodeURIComponent(mensaje);
+        case 'instagram': return 'https://instagram.com/' + c.valor.replace('@', '') + '/';
+        case 'email':     return 'mailto:' + c.valor + '?subject=' + encodeURIComponent(mensaje);
+        case 'telefono':  return 'tel:' + c.valor;
+        default:          return c.valor;
+      }
+    }
+
+    /* Ícono del botón de contacto según tipo */
+    var CONTACTO_ICONO = {
+      whatsapp:  'whatsapp',
+      instagram: 'instagram',
+      email:     'mail',
+      telefono:  'phone',
+    };
+    function contactIcon(size, fill) {
+      return svgIcon(CONTACTO_ICONO[CONFIG.contacto.tipo] || 'whatsapp', size, size, fill);
+    }
+
+    /* Ícono SVG por nombre (stroke-only, sin fill) */
+    const ICONOS = {
+      bolt:    '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+      edit:    '<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+      headset: '<path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/>',
+      chart:   '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      pin:     '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
+      clock:   '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+      whatsapp:'<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>',
+      instagram:'<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>',
+      facebook: '<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>',
+      linkedin: '<path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+      twitter:  '<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>',
+      mail:     '<path d="M4 4h16c1.1 0 2 .9 2 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+      phone:    '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.2 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.31 7.91a16 16 0 006.72 6.72l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>',
+      link:     '<path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>',
+    };
+
+    function svgIcon(nombre, w = 22, h = 22, fill = false) {
+      const path = ICONOS[nombre] || '';
+      const extra = fill ? 'fill="currentColor" stroke="none"' : 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+      return `<svg width="${w}" height="${h}" viewBox="0 0 24 24" ${extra}>${path}</svg>`;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       APLICAR COLORES DESDE CONFIG → CSS VARIABLES
+    ═══════════════════════════════════════════════════════════════ */
+    (function aplicarColores() {
+      const root = document.documentElement;
+      const c = CONFIG.colores;
+      root.style.setProperty('--color-verde',      c.verde);
+      root.style.setProperty('--color-verde-dark', c.verdeOscuro);
+      root.style.setProperty('--color-oscuro',     c.oscuro);
+      root.style.setProperty('--color-fondo',      c.fondo);
+      root.style.setProperty('--color-fondo-alt',  c.fondoAlt);
+      root.style.setProperty('--color-gris',       c.gris);
+    })();
+
+    /* ═══════════════════════════════════════════════════════════════
+       RENDERIZAR PÁGINA DESDE CONFIG
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* ─ Meta / título ─ */
+    document.getElementById('pageTitle').textContent = `${CONFIG.nombre} — ${CONFIG.giro}`;
+    document.getElementById('pageDesc').content = CONFIG.descripcion;
+
+    /* ─ NAVBAR ─ */
+    const navLogo = document.getElementById('navLogo');
+    if (CONFIG.logo.horizontal) {
+      navLogo.innerHTML = `<img src="${CONFIG.logo.horizontal}" alt="${CONFIG.nombre}">`;
+    } else {
+      navLogo.innerHTML = `<span class="nav-logo-text">${CONFIG.nombre}</span>`;
+    }
+
+    const navLinks = document.getElementById('navLinks');
+    navLinks.innerHTML = CONFIG.nav.links.map(l =>
+      `<li><a href="${l.href}">${l.etiqueta}</a></li>`
+    ).join('');
+
+    const navCta = document.getElementById('navCta');
+    navCta.textContent = CONFIG.nav.ctaTexto;
+    navCta.href = contactLink(CONFIG.nav.ctaMensaje);
+
+    /* ─ MOBILE MENU ─ */
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.innerHTML = CONFIG.nav.links.map(l =>
+      `<a href="${l.href}">${l.etiqueta}</a>`
+    ).join('');
+
+    /* ─ HERO ─ */
+    document.getElementById('heroEyebrow').textContent = CONFIG.hero.eyebrow;
+    document.getElementById('heroTitle').innerHTML   = CONFIG.hero.titulo;
+    document.getElementById('heroSub').textContent   = CONFIG.hero.subtitulo;
+    document.getElementById('heroBtns').innerHTML = `
+      <a class="btn btn-verde" href="${contactLink(CONFIG.hero.ctaMensaje)}" target="_blank" rel="noopener noreferrer">
+        ${contactIcon(18, true)}
+        ${CONFIG.hero.ctaTexto}
+      </a>
+      <a class="btn btn-ghost-white" href="${CONFIG.hero.btn2Href}">
+        ${CONFIG.hero.btn2Texto}
+      </a>
+    `;
+
+    /* ─ SERVICIOS ─ */
+    document.getElementById('serviciosLabel').textContent    = CONFIG.servicios.label;
+    document.getElementById('serviciosTitulo').textContent   = CONFIG.servicios.titulo;
+    document.getElementById('serviciosSubtitulo').textContent = CONFIG.servicios.subtitulo;
+
+    document.getElementById('gridServicios').innerHTML = CONFIG.servicios.items.map((s, i) => `
+      <div class="card-servicio reveal" style="transition-delay:${i * 0.08}s">
+        <h3 class="card-servicio-nombre">${s.nombre}</h3>
+        <p class="card-servicio-desc">${s.descripcion}</p>
+        ${s.precio ? `<div class="card-servicio-precio">${s.precio}</div>` : ''}
+        <a class="btn btn-verde" href="${contactLink(s.mensaje)}" target="_blank" rel="noopener noreferrer">
+          ${contactIcon(16, true)}
+          ${CONFIG.servicios.btnTexto}
+        </a>
+      </div>
+    `).join('');
+
+    /* ─ POR QUÉ NOSOTROS ─ */
+    document.getElementById('porqueLabel').textContent    = CONFIG.porqueNosotros.label;
+    document.getElementById('porqueTitulo').textContent   = CONFIG.porqueNosotros.titulo;
+    document.getElementById('porqueSubtitulo').textContent = CONFIG.porqueNosotros.subtitulo;
+
+    document.getElementById('gridPorque').innerHTML = CONFIG.porqueNosotros.items.map((item, i) => `
+      <div class="item-porque reveal" style="transition-delay:${i * 0.08}s">
+        <div class="icon-porque">
+          ${svgIcon(item.icono)}
+        </div>
+        <h3 class="item-porque-titulo">${item.titulo}</h3>
+        <p class="item-porque-texto">${item.texto}</p>
+      </div>
+    `).join('');
+
+    /* ─ GALERÍA ─ */
+    document.getElementById('galeriaLabel').textContent    = CONFIG.galeria.label;
+    document.getElementById('galeriaTitulo').textContent   = CONFIG.galeria.titulo;
+    document.getElementById('galeriaSubtitulo').textContent = CONFIG.galeria.subtitulo;
+
+    document.getElementById('gridGaleria').innerHTML = CONFIG.galeria.items.map((item, i) => `
+      <div class="galeria-cell reveal" style="transition-delay:${i * 0.06}s">
+        <div class="galeria-placeholder">
+          <span>${item.alt}</span>
+        </div>
+      </div>
+    `).join('');
+
+    /* ─ TESTIMONIOS ─ */
+    document.getElementById('testimoniosLabel').textContent    = CONFIG.testimonios.label;
+    document.getElementById('testimoniosTitulo').textContent   = CONFIG.testimonios.titulo;
+    document.getElementById('testimoniosSubtitulo').textContent = CONFIG.testimonios.subtitulo;
+
+    document.getElementById('gridTestimonios').innerHTML = CONFIG.testimonios.items.map((t, i) => `
+      <div class="card-testimonio reveal" style="transition-delay:${i * 0.08}s">
+        <div class="stars">★★★★★</div>
+        <p class="testimonio-texto">"${t.texto}"</p>
+        <div class="testimonio-autor">
+          <div class="testimonio-avatar">${t.iniciales}</div>
+          <div>
+            <div class="testimonio-nombre">${t.nombre}</div>
+            <div class="testimonio-negocio">${t.negocio}</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    /* ─ UBICACIÓN ─ */
+    document.getElementById('ubicacionLabel').textContent = CONFIG.ubicacion.label;
+    document.getElementById('ubicacionTitulo').textContent = CONFIG.ubicacion.titulo;
+
+    const mapaWrap = document.getElementById('mapaWrap');
+    const mapaQ    = encodeURIComponent(CONFIG.ubicacion.mapaQuery);
+    mapaWrap.innerHTML = `
+      <iframe
+        src="https://maps.google.com/maps?q=${mapaQ}&output=embed"
+        title="Mapa de ubicación"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    `;
+
+    const horarioHTML = CONFIG.ubicacion.horarios.map(h => `
+      <div class="horario-item">
+        <span class="horario-dia">${h.dia}</span>
+        <span class="horario-hora">${h.hora}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('infoUbicacion').innerHTML = `
+      <div class="info-row">
+        ${svgIcon('pin')}
+        <div>
+          <div class="info-row-titulo">Dirección</div>
+          <div class="info-row-texto">${CONFIG.ubicacion.direccion}</div>
+        </div>
+      </div>
+      <div class="info-row">
+        ${svgIcon('clock')}
+        <div style="width:100%">
+          <div class="info-row-titulo" style="margin-bottom:0.5rem">Horarios de atención</div>
+          ${horarioHTML}
+        </div>
+      </div>
+      <a class="btn btn-outline-verde" 
+         href="https://maps.google.com?q=${mapaQ}" 
+         target="_blank" rel="noopener noreferrer" 
+         style="align-self:flex-start">
+        Ver en Google Maps
+      </a>
+    `;
+
+    /* ─ CTA FINAL ─ */
+    document.getElementById('ctaTitulo').textContent   = CONFIG.ctaFinal.titulo;
+    document.getElementById('ctaSubtitulo').textContent = CONFIG.ctaFinal.subtitulo;
+    const ctaBtn = document.getElementById('ctaBtn');
+    ctaBtn.href = contactLink(CONFIG.ctaFinal.mensaje);
+    ctaBtn.innerHTML = `${contactIcon(20, true)} ${CONFIG.ctaFinal.btnTexto}`;
+
+    /* ─ FOOTER ─ */
+    const nombrePartes = CONFIG.nombre.split('');
+    /* Resalta en verde la primera letra del nombre para el footer */
+    /* Colorea letras del nombre en el footer según posición */
+    const footerLetterColors = { M: 'white', A: 'var(--color-verde)', I: 'var(--color-verde)' };
+    document.getElementById('footerNombre').innerHTML =
+      CONFIG.nombre.split('').map(function(letra) {
+        const color = footerLetterColors[letra] || 'white';
+        return `<span style="color:${color}">${letra}</span>`;
+      }).join('');
+    document.getElementById('footerTagline').textContent = CONFIG.tagline;
+
+    document.getElementById('footerLinks').innerHTML = CONFIG.footer.links.map(l =>
+      `<li><a href="${l.href}">${l.etiqueta}</a></li>`
+    ).join('');
+
+    document.getElementById('footerSocial').innerHTML = CONFIG.footer.redesSociales.map(r => `
+      <a href="${r.url}" target="_blank" rel="noopener noreferrer">
+        ${svgIcon(r.icono)}
+        ${r.usuario}
+      </a>
+    `).join('');
+
+    const año = new Date().getFullYear();
+    const copy = CONFIG.footer.copyright
+      .replace('{año}', año)
+      .replace('{nombre}', CONFIG.nombre);
+    document.getElementById('footerBottom').innerHTML = `
+      <span>${copy}</span>
+      <span>${CONFIG.footer.desarrolladoPor}</span>
+    `;
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTERACTIVIDAD
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* ─ Hamburger ─ */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenuEl = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', function() {
+      const open = mobileMenuEl.classList.toggle('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+    });
+
+    mobileMenuEl.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        mobileMenuEl.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+      });
+    });
+
+    /* ─ Scroll: revelar elementos ─ */
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    /* ─ Scroll: sombra en navbar ─ */
+    window.addEventListener('scroll', function() {
+      const nav = document.getElementById('nav');
+      if (window.scrollY > 20) {
+        nav.style.boxShadow = '0 2px 16px rgba(26,26,29,0.1)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+    }, { passive: true });
+
+  </script>
+</body>
+</html>
+
+<style id="__om-edit-overrides">
+#navLogo >:is(img,video) { width: 62px !important }
+#navLogo >:is(img,video) { height: 62px !important }
+#navLogo >:is(img,video) { width: 52px !important }
+#navLogo >:is(img,video) { height: 52px !important }
+</style>

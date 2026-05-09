@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Personalización — Plantilla Página Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde:   #0CAA58;
+      --oscuro:  #1A1A1D;
+      --fondo:   #F5F5F0;
+      --fondo-alt: #EAEAE4;
+      --gris:    #6B6B6B;
+      --borde:   rgba(26,26,29,0.09);
+      --radio:   8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--fondo);
+      color: var(--oscuro);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto;
+      background: white;
+      border-right: 1px solid var(--borde);
+      padding: 2rem 1.25rem;
+      display: flex; flex-direction: column; gap: 0.25rem;
+    }
+    .sidebar-title {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gris);
+      margin: 1.25rem 0 0.5rem;
+      padding-left: 0.75rem;
+    }
+    .sidebar-title:first-child { margin-top: 0; }
+    .sidebar a {
+      display: block;
+      font-size: 0.82rem; font-weight: 500;
+      text-decoration: none;
+      color: var(--oscuro);
+      padding: 0.4rem 0.75rem;
+      border-radius: 5px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sidebar a:hover { background: var(--fondo); color: var(--verde); }
+    .sidebar a.active { background: var(--verde); color: white; }
+
+    /* ── CONTENIDO ── */
+    .content {
+      max-width: 860px;
+      padding: 3.5rem 3rem 6rem;
+    }
+
+    /* ── ENCABEZADO PRINCIPAL ── */
+    .page-header { margin-bottom: 3.5rem; }
+    .page-header-tag {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--verde);
+      background: rgba(12,170,88,0.1);
+      padding: 0.3rem 0.75rem;
+      border-radius: 99px;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-size: 2.25rem; font-weight: 700;
+      line-height: 1.15; letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .page-header p {
+      font-size: 1rem; color: var(--gris);
+      max-width: 520px; line-height: 1.75;
+    }
+
+    /* ── SECCIONES ── */
+    .section { margin-bottom: 3.5rem; scroll-margin-top: 2rem; }
+    .section-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.875rem;
+      border-bottom: 1px solid var(--borde);
+    }
+    .section-num {
+      width: 28px; height: 28px;
+      background: var(--verde); color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .section h2 {
+      font-size: 1.15rem; font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .section p, .section li {
+      font-size: 0.9rem; color: var(--gris);
+      line-height: 1.8; margin-bottom: 0.5rem;
+    }
+    .section ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+
+    /* ── CAMPO ── */
+    .field {
+      background: white;
+      border: 1px solid var(--borde);
+      border-radius: var(--radio);
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.625rem;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0.5rem 1.5rem;
+      align-items: start;
+    }
+    .field-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--verde);
+      padding-top: 1px;
+    }
+    .field-desc { font-size: 0.85rem; color: var(--oscuro); line-height: 1.65; }
+    .field-example {
+      grid-column: 1 / -1;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      background: var(--fondo);
+      border: 1px solid var(--borde);
+      border-radius: 5px;
+      padding: 0.6rem 0.875rem;
+      color: var(--gris);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .field-example .k  { color: #0CAA58; }   /* clave */
+    .field-example .s  { color: #C2410C; }   /* string */
+    .field-example .c  { color: #9CA3AF; }   /* comentario */
+
+    /* ── ALERTA ── */
+    .tip {
+      display: flex; gap: 0.875rem; align-items: flex-start;
+      background: rgba(12,170,88,0.07);
+      border: 1px solid rgba(12,170,88,0.2);
+      border-radius: var(--radio);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem; line-height: 1.7;
+      color: var(--oscuro);
+    }
+    .tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .warn {
+      display: flex; gap: 0.875rem; align-items: flex-start;
+      background: rgba(234,179,8,0.07);
+      border: 1px solid rgba(234,179,8,0.25);
+      border-radius: var(--radio);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.85rem; line-height: 1.7;
+      color: var(--oscuro);
+    }
+
+    /* ── CÓDIGO COMPLETO ── */
+    .code-block {
+      background: var(--oscuro);
+      border-radius: var(--radio);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.85);
+      white-space: pre;
+    }
+    .code-block .k  { color: #0CAA58; }
+    .code-block .s  { color: #FCA5A5; }
+    .code-block .c  { color: rgba(255,255,255,0.3); }
+    .code-block .n  { color: #93C5FD; }
+    .code-block .p  { color: rgba(255,255,255,0.55); }
+
+    /* ── TABLA ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    th {
+      text-align: left;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gris);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 2px solid var(--borde);
+    }
+    td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--borde);
+      vertical-align: top;
+      line-height: 1.65;
+      color: var(--oscuro);
+    }
+    td:first-child {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--verde);
+      white-space: nowrap;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+    .step {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: white; border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 1rem 1.25rem;
+    }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--fondo); border: 2px solid var(--verde);
+      color: var(--verde); font-size: 0.75rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-body h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .step-body p  { font-size: 0.83rem; color: var(--gris); margin: 0; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .content { padding: 2rem 1.25rem 4rem; }
+      .field { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ─────────── SIDEBAR ─────────── -->
+  <aside class="sidebar">
+    <p class="sidebar-title">Inicio</p>
+    <a href="#intro">¿Cómo funciona?</a>
+    <a href="#pasos">Pasos rápidos</a>
+
+    <p class="sidebar-title">Secciones CONFIG</p>
+    <a href="#identidad">1 · Identidad</a>
+    <a href="#colores">2 · Colores</a>
+    <a href="#logos">3 · Logos</a>
+    <a href="#nav">4 · Navegación</a>
+    <a href="#hero">5 · Hero</a>
+    <a href="#servicios">6 · Servicios</a>
+    <a href="#porque">7 · Por qué nosotros</a>
+    <a href="#galeria">8 · Galería</a>
+    <a href="#testimonios">9 · Testimonios</a>
+    <a href="#ubicacion">10 · Ubicación</a>
+    <a href="#cta">11 · CTA Final</a>
+    <a href="#footer">12 · Footer</a>
+
+    <p class="sidebar-title">Referencia</p>
+    <a href="#iconos">Íconos disponibles</a>
+    <a href="#contacto">Método de contacto</a>
+  </aside>
+
+  <!-- ─────────── CONTENIDO ─────────── -->
+  <main class="content">
+
+    <div class="page-header">
+      <span class="page-header-tag">Plantilla Página Web v1</span>
+      <h1>Guía de personalización</h1>
+      <p>Todo el contenido de la página vive en un solo objeto <code style="font-family:monospace;background:var(--fondo-alt);padding:2px 6px;border-radius:4px;font-size:0.9em">CONFIG</code>. Para adaptar la plantilla a cualquier negocio, solo editas ese objeto — sin tocar HTML ni CSS.</p>
+    </div>
+
+    <!-- ──────── INTRO ──────── -->
+    <div class="section" id="intro">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--oscuro)">?</div>
+        <h2>¿Cómo funciona?</h2>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>El archivo <strong>MAIVON Landing Page.html</strong> tiene un objeto <code style="font-family:monospace">CONFIG</code> en el <code style="font-family:monospace">&lt;script&gt;</code> al final. El JavaScript lee ese objeto y construye toda la página automáticamente: textos, colores, servicios, horarios, links de WhatsApp y más.</span>
+      </div>
+      <p style="margin-bottom:0.75rem">La arquitectura tiene tres capas:</p>
+      <ul>
+        <li><strong>HTML</strong> — solo estructura vacía (divs con IDs). No tiene texto directo.</li>
+        <li><strong>CSS</strong> — estilos con variables <code style="font-family:monospace">:root</code> que se sobreescriben desde <code style="font-family:monospace">CONFIG.colores</code>.</li>
+        <li><strong>CONFIG</strong> — único punto de verdad. Todo el contenido está aquí.</li>
+      </ul>
+    </div>
+
+    <!-- ──────── PASOS ──────── -->
+    <div class="section" id="pasos">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--oscuro)">→</div>
+        <h2>Pasos rápidos para un negocio nuevo</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Abre el archivo HTML</h4>
+            <p>Busca el bloque <code style="font-family:monospace">const CONFIG = {</code> — está cerca del final del archivo, dentro del <code style="font-family:monospace">&lt;script&gt;</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Edita la sección Identidad</h4>
+            <p>Cambia <code style="font-family:monospace">nombre</code>, <code style="font-family:monospace">giro</code>, <code style="font-family:monospace">tagline</code> y <code style="font-family:monospace">whatsapp</code>. Esto actualiza el título, navbar, hero y footer.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Ajusta los colores</h4>
+            <p>En <code style="font-family:monospace">CONFIG.colores</code> cambia <code style="font-family:monospace">verde</code> por el color de acento del negocio. El resto de la página se actualiza automáticamente.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Sube los logos</h4>
+            <p>Coloca los archivos de logo en la carpeta <code style="font-family:monospace">uploads/</code> y actualiza las rutas en <code style="font-family:monospace">CONFIG.logo</code>.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Llena servicios, testimonios y ubicación</h4>
+            <p>Edita cada sección con los datos reales del negocio. Los arrays se pueden extender o reducir sin límite.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──────── 1. IDENTIDAD ──────── -->
+    <div class="section" id="identidad">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Identidad del negocio</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Datos base que se usan en múltiples secciones — navbar, hero, footer, meta SEO.</p>
+
+      <div class="field">
+        <span class="field-key">nombre</span>
+        <span class="field-desc">Nombre comercial del negocio. Aparece en el navbar (si no hay logo), en el footer y en el título del browser.</span>
+        <code class="field-example"><span class="k">nombre</span>: <span class="s">"Mi Negocio"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">giro</span>
+        <span class="field-desc">Categoría o tipo de negocio. Aparece debajo del nombre en el footer y en la meta descripción.</span>
+        <code class="field-example"><span class="k">giro</span>: <span class="s">"Restaurante de comida japonesa"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">tagline</span>
+        <span class="field-desc">Frase corta de marca. Se usa internamente como referencia; el texto visible del hero se controla en <code>hero.titulo</code>.</span>
+        <code class="field-example"><span class="k">tagline</span>: <span class="s">"Sabor que enamora"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">descripcion</span>
+        <span class="field-desc">Descripción larga para SEO. Aparece en la meta etiqueta del <code>&lt;head&gt;</code> — no se muestra en pantalla.</span>
+        <code class="field-example"><span class="k">descripcion</span>: <span class="s">"Restaurante japonés en el centro de la ciudad. Sushi fresco, ramen y más."</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">contacto.tipo<br>contacto.valor</span>
+        <span class="field-desc">Define el <strong>canal principal de contacto</strong> del negocio. Todos los botones de la página usan este valor. Ver la sección <a href="#contacto" style="color:var(--verde)">Método de contacto</a> para opciones completas.</span>
+        <code class="field-example"><span class="k">contacto</span>: { <span class="k">tipo</span>: <span class="s">"whatsapp"</span>, <span class="k">valor</span>: <span class="s">"526671234567"</span> }</code>
+      </div>
+    </div>
+
+    <!-- ──────── 2. COLORES ──────── -->
+    <div class="section" id="colores">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>Colores</h2>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">🎨</span>
+        <span>Al cambiar cualquier valor en <code style="font-family:monospace">CONFIG.colores</code>, el JS lo aplica como variable CSS en <code style="font-family:monospace">:root</code> y toda la página se recolorea instantáneamente.</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Campo</th><th>Uso en la página</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>verde</td>
+            <td>Color de acento principal. Botones, íconos, precios, barra de carga, links hover, textos destacados.</td>
+            <td><code style="font-family:monospace">"#0CAA58"</code></td>
+          </tr>
+          <tr>
+            <td>verdeOscuro</td>
+            <td>Estado hover de los botones de acento. Debe ser más oscuro que <code style="font-family:monospace">verde</code>.</td>
+            <td><code style="font-family:monospace">"#09844a"</code></td>
+          </tr>
+          <tr>
+            <td>oscuro</td>
+            <td>Texto principal, fondos oscuros (hero, testimonios, footer), hamburger.</td>
+            <td><code style="font-family:monospace">"#1A1A1D"</code></td>
+          </tr>
+          <tr>
+            <td>fondo</td>
+            <td>Fondo general de la página y splash screen.</td>
+            <td><code style="font-family:monospace">"#F5F5F0"</code></td>
+          </tr>
+          <tr>
+            <td>fondoAlt</td>
+            <td>Fondo de secciones alternas (Por qué nosotros). Debe ser ligeramente más oscuro que <code style="font-family:monospace">fondo</code>.</td>
+            <td><code style="font-family:monospace">"#EAEAE4"</code></td>
+          </tr>
+          <tr>
+            <td>gris</td>
+            <td>Textos secundarios, subtítulos, descripciones.</td>
+            <td><code style="font-family:monospace">"#6B6B6B"</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warn">
+        <span class="tip-icon">⚠️</span>
+        <span>El fondo del splash screen está hardcodeado en el CSS (<code style="font-family:monospace">#F5F5F0</code>) para que cargue antes que el JS. Si cambias <code style="font-family:monospace">colores.fondo</code>, actualiza también la línea <code style="font-family:monospace">background: #F5F5F0</code> en el bloque <code style="font-family:monospace">#splash</code> del CSS.</span>
+      </div>
+    </div>
+
+    <!-- ──────── 3. LOGOS ──────── -->
+    <div class="section" id="logos">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>Logos</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Sube los archivos a la carpeta <code style="font-family:monospace">uploads/</code> y apunta las rutas aquí. Si un logo no existe, deja el valor en <code style="font-family:monospace">""</code>.</p>
+
+      <div class="field">
+        <span class="field-key">logo.horizontal</span>
+        <span class="field-desc"><strong>Navbar (arriba a la izquierda).</strong> Logo con texto en una línea. Si está vacío, se muestra el nombre en texto.</span>
+        <code class="field-example"><span class="k">horizontal</span>: <span class="s">"uploads/logo-horizontal.png"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">logo.vertical</span>
+        <span class="field-desc">Logo con texto apilado (icono arriba, nombre abajo). Reservado para usos futuros.</span>
+        <code class="field-example"><span class="k">vertical</span>: <span class="s">"uploads/logo-vertical.png"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">logo.icono</span>
+        <span class="field-desc">Solo el símbolo/ícono, sin texto. Se usa en el splash screen de carga.</span>
+        <code class="field-example"><span class="k">icono</span>: <span class="s">"uploads/icono.png"</span></code>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Usa archivos <strong>PNG con fondo transparente</strong> para que el logo se vea bien sobre cualquier fondo. Para el splash screen, el logo <code style="font-family:monospace">icono</code> funciona mejor.</span>
+      </div>
+    </div>
+
+    <!-- ──────── 4. NAV ──────── -->
+    <div class="section" id="nav">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>Navegación</h2>
+      </div>
+
+      <div class="field">
+        <span class="field-key">nav.ctaTexto</span>
+        <span class="field-desc">Texto del botón verde en el navbar (desktop).</span>
+        <code class="field-example"><span class="k">ctaTexto</span>: <span class="s">"WhatsApp"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">nav.ctaMensaje</span>
+        <span class="field-desc">Mensaje preescrito para el botón del navbar. Se usa como texto en WhatsApp o como asunto en email. Se ignora si el tipo de contacto es Instagram o teléfono.</span>
+        <code class="field-example"><span class="k">ctaMensaje</span>: <span class="s">"Hola, me gustaría recibir información sobre sus servicios."</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">nav.links</span>
+        <span class="field-desc">Array de links del menú. Cada uno tiene <code>etiqueta</code> (texto visible) y <code>href</code> (ancla o URL). Para añadir/quitar links, agrega o borra objetos del array.</span>
+        <code class="field-example"><span class="k">links</span>: [
+  { <span class="k">etiqueta</span>: <span class="s">"Servicios"</span>, <span class="k">href</span>: <span class="s">"#servicios"</span> },
+  { <span class="k">etiqueta</span>: <span class="s">"Contacto"</span>,  <span class="k">href</span>: <span class="s">"#ubicacion"</span> },
+]</code>
+      </div>
+    </div>
+
+    <!-- ──────── 5. HERO ──────── -->
+    <div class="section" id="hero">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>Hero (sección de inicio)</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Primera pantalla que ve el visitante. Fondo oscuro con dos botones de llamada a la acción.</p>
+
+      <div class="field">
+        <span class="field-key">hero.eyebrow</span>
+        <span class="field-desc">Texto pequeño en verde sobre el título. Generalmente el giro del negocio.</span>
+        <code class="field-example"><span class="k">eyebrow</span>: <span class="s">"Taquería desde 1985"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">hero.titulo</span>
+        <span class="field-desc">Título grande del hero. Acepta HTML — usa <code>&lt;span class='accent'&gt;texto&lt;/span&gt;</code> para colorear una palabra en verde.</span>
+        <code class="field-example"><span class="k">titulo</span>: <span class="s">"El mejor taco &lt;span class='accent'&gt;de la ciudad&lt;/span&gt;"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">hero.subtitulo</span>
+        <span class="field-desc">Párrafo descriptivo debajo del título. 1-2 oraciones recomendadas.</span>
+        <code class="field-example"><span class="k">subtitulo</span>: <span class="s">"Sabores auténticos preparados con ingredientes frescos cada día."</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">hero.ctaTexto<br>hero.ctaMensaje</span>
+        <span class="field-desc">Texto e mensaje del botón principal de contacto. El <code>ctaMensaje</code> se usa en WhatsApp/email; se ignora en Instagram y teléfono.</span>
+        <code class="field-example"><span class="k">ctaTexto</span>:  <span class="s">"Hacer un pedido"</span>,
+<span class="k">ctaMensaje</span>: <span class="s">"Hola, quiero hacer un pedido."</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">hero.btn2Texto<br>hero.btn2Href</span>
+        <span class="field-desc">Texto y destino del botón secundario (borde blanco). Generalmente apunta a la sección de servicios o menú.</span>
+        <code class="field-example"><span class="k">btn2Texto</span>: <span class="s">"Ver menú"</span>,
+<span class="k">btn2Href</span>:  <span class="s">"#servicios"</span></code>
+      </div>
+    </div>
+
+    <!-- ──────── 6. SERVICIOS ──────── -->
+    <div class="section" id="servicios">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>Servicios / Productos</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Muestra tarjetas con nombre, descripción, precio y botón de contacto. El canal (WhatsApp, Instagram, email…) se hereda de <code style="font-family:monospace">CONFIG.contacto</code>. El grid se ajusta automáticamente al número de items.</p>
+
+      <div class="field">
+        <span class="field-key">servicios.items</span>
+        <span class="field-desc">Array de servicios. Cada uno tiene: <code>nombre</code>, <code>descripcion</code>, <code>precio</code> y <code>mensaje</code> (texto que acompaña el contacto — usado en WhatsApp y email).</span>
+        <code class="field-example">{
+  <span class="k">nombre</span>:      <span class="s">"Plan Básico"</span>,
+  <span class="k">descripcion</span>: <span class="s">"Descripción breve del servicio o producto."</span>,
+  <span class="k">precio</span>:      <span class="s">"$500/mes"</span>,  <span class="c">// deja "" si no quieres mostrar precio</span>
+  <span class="k">mensaje</span>:     <span class="s">"Hola, me interesa el Plan Básico."</span>,  <span class="c">// para WA / email</span>
+}</code>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Puedes tener tantos items como quieras. Con 3 items se ven 3 columnas en desktop. Con 2 ó 4+ el grid se adapta. Si el negocio no tiene precios, deja <code style="font-family:monospace">precio: ""</code> y no aparecerá.</span>
+      </div>
+    </div>
+
+    <!-- ──────── 7. POR QUÉ ──────── -->
+    <div class="section" id="porque">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>Por qué nosotros</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">4 propuestas de valor con ícono, título y descripción corta.</p>
+
+      <div class="field">
+        <span class="field-key">porqueNosotros.items</span>
+        <span class="field-desc">Cada item tiene <code>titulo</code>, <code>texto</code> e <code>icono</code>. El icono es un nombre de la tabla de íconos (ver sección Íconos).</span>
+        <code class="field-example">{
+  <span class="k">titulo</span>: <span class="s">"Experiencia real"</span>,
+  <span class="k">texto</span>:  <span class="s">"15 años en el mercado nos respaldan."</span>,
+  <span class="k">icono</span>:  <span class="s">"bolt"</span>,
+}</code>
+      </div>
+    </div>
+
+    <!-- ──────── 8. GALERÍA ──────── -->
+    <div class="section" id="galeria">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2>Galería</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Grid de imágenes de proyectos o del negocio. Actualmente muestra placeholders — se reemplazan subiendo imágenes.</p>
+
+      <div class="warn">
+        <span class="tip-icon">⚠️</span>
+        <span>Para usar imágenes reales: sube los archivos a <code style="font-family:monospace">uploads/</code>, luego agrega la ruta en cada item: <code style="font-family:monospace">{ alt: "descripción", src: "uploads/foto1.jpg" }</code>. El JS usará <code style="font-family:monospace">&lt;img&gt;</code> en lugar del placeholder cuando exista <code style="font-family:monospace">src</code>.</span>
+      </div>
+
+      <div class="field">
+        <span class="field-key">galeria.items</span>
+        <span class="field-desc">Array de imágenes. Cada item tiene <code>alt</code> (descripción accesible) y opcionalmente <code>src</code> (ruta de la imagen).</span>
+        <code class="field-example">{ <span class="k">alt</span>: <span class="s">"Local del restaurante"</span> },  <span class="c">// sin src → placeholder</span>
+{ <span class="k">alt</span>: <span class="s">"Platillo estrella"</span>, <span class="k">src</span>: <span class="s">"uploads/platillo.jpg"</span> }</code>
+      </div>
+    </div>
+
+    <!-- ──────── 9. TESTIMONIOS ──────── -->
+    <div class="section" id="testimonios">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2>Testimonios</h2>
+      </div>
+
+      <div class="field">
+        <span class="field-key">testimonios.items</span>
+        <span class="field-desc">Array de reseñas. Cada una tiene <code>texto</code>, <code>nombre</code>, <code>negocio</code> (o cargo) e <code>iniciales</code> (2 letras para el avatar).</span>
+        <code class="field-example">{
+  <span class="k">texto</span>:    <span class="s">"Excelente servicio. Lo recomiendo totalmente."</span>,
+  <span class="k">nombre</span>:   <span class="s">"María G."</span>,
+  <span class="k">negocio</span>:  <span class="s">"Boutique Flores"</span>,
+  <span class="k">iniciales</span>:<span class="s">"MG"</span>,
+}</code>
+      </div>
+    </div>
+
+    <!-- ──────── 10. UBICACIÓN ──────── -->
+    <div class="section" id="ubicacion">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <h2>Ubicación y horarios</h2>
+      </div>
+
+      <div class="field">
+        <span class="field-key">ubicacion.direccion</span>
+        <span class="field-desc">Dirección completa que aparece en el bloque de info.</span>
+        <code class="field-example"><span class="k">direccion</span>: <span class="s">"Calle Hidalgo 45, Col. Centro, Culiacán, Sin."</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">ubicacion.mapaQuery</span>
+        <span class="field-desc">Texto que se pasa a Google Maps para el embed y el link "Ver en Google Maps". Puede ser la misma dirección o el nombre del lugar.</span>
+        <code class="field-example"><span class="k">mapaQuery</span>: <span class="s">"Calle Hidalgo 45, Col. Centro, Culiacán"</span></code>
+      </div>
+      <div class="field">
+        <span class="field-key">ubicacion.horarios</span>
+        <span class="field-desc">Array de rangos de días con su horario. Cada fila tiene <code>dia</code> y <code>hora</code>.</span>
+        <code class="field-example">{ <span class="k">dia</span>: <span class="s">"Lunes – Viernes"</span>, <span class="k">hora</span>: <span class="s">"9:00 am – 7:00 pm"</span> },
+{ <span class="k">dia</span>: <span class="s">"Sábado"</span>,         <span class="k">hora</span>: <span class="s">"10:00 am – 3:00 pm"</span> },
+{ <span class="k">dia</span>: <span class="s">"Domingo"</span>,        <span class="k">hora</span>: <span class="s">"Cerrado"</span> },</code>
+      </div>
+    </div>
+
+    <!-- ──────── 11. CTA ──────── -->
+    <div class="section" id="cta">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <h2>CTA Final</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Sección de cierre con fondo verde y un botón de contacto. El canal se hereda de <code style="font-family:monospace">CONFIG.contacto</code>.</p>
+
+      <div class="field">
+        <span class="field-key">ctaFinal.titulo<br>ctaFinal.subtitulo</span>
+        <span class="field-desc">Título y párrafo de la sección. Deben ser directos y orientados a la acción.</span>
+        <code class="field-example"><span class="k">titulo</span>:    <span class="s">"¿Listo para ordenar?"</span>,
+<span class="k">subtitulo</span>: <span class="s">"Escríbenos y te atendemos en minutos."</span>,</code>
+      </div>
+      <div class="field">
+        <span class="field-key">ctaFinal.btnTexto<br>ctaFinal.mensaje</span>
+        <span class="field-desc">Texto del botón y mensaje de contacto. El campo <code>mensaje</code> se usa en WhatsApp/email; se ignora en Instagram y teléfono.</span>
+        <code class="field-example"><span class="k">btnTexto</span>: <span class="s">"Hacer mi pedido"</span>,
+<span class="k">mensaje</span>:   <span class="s">"Hola, quiero hacer un pedido ahora."</span>,</code>
+      </div>
+    </div>
+
+    <!-- ──────── 12. FOOTER ──────── -->
+    <div class="section" id="footer">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <h2>Footer</h2>
+      </div>
+
+      <div class="field">
+        <span class="field-key">footer.redesSociales</span>
+        <span class="field-desc">Array de redes. Cada una tiene <code>red</code>, <code>url</code>, <code>usuario</code> e <code>icono</code> (nombre del ícono disponible: <code>instagram</code>, <code>facebook</code>, <code>linkedin</code>, <code>twitter</code>).</span>
+        <code class="field-example">{
+  <span class="k">red</span>:     <span class="s">"Instagram"</span>,
+  <span class="k">url</span>:     <span class="s">"https://instagram.com/mi_negocio"</span>,
+  <span class="k">usuario</span>: <span class="s">"@mi_negocio"</span>,
+  <span class="k">icono</span>:   <span class="s">"instagram"</span>,
+}</code>
+      </div>
+      <div class="field">
+        <span class="field-key">footer.copyright</span>
+        <span class="field-desc">Usa <code>{año}</code> para el año actual y <code>{nombre}</code> para el nombre del negocio. Se rellenan automáticamente.</span>
+        <code class="field-example"><span class="k">copyright</span>: <span class="s">"© {año} {nombre}. Todos los derechos reservados."</span></code>
+      </div>
+    </div>
+
+    <!-- ──────── ÍCONOS ──────── -->
+    <div class="section" id="iconos">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--oscuro)">☆</div>
+        <h2>Íconos disponibles</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Estos son los nombres válidos para el campo <code style="font-family:monospace">icono</code> en <code style="font-family:monospace">porqueNosotros.items</code> y <code style="font-family:monospace">footer.redesSociales</code>.</p>
+
+      <table>
+        <thead><tr><th>Nombre</th><th>Uso típico</th></tr></thead>
+        <tbody>
+          <tr><td>bolt</td><td>Velocidad, tecnología, energía</td></tr>
+          <tr><td>edit</td><td>Personalización, diseño, a tu medida</td></tr>
+          <tr><td>headset</td><td>Soporte, atención al cliente, servicio</td></tr>
+          <tr><td>chart</td><td>Resultados, métricas, estadísticas</td></tr>
+          <tr><td>pin</td><td>Ubicación, dirección, localización</td></tr>
+          <tr><td>clock</td><td>Horarios, tiempo, puntualidad</td></tr>
+          <tr><td>whatsapp</td><td>Botones de contacto por WhatsApp</td></tr>
+          <tr><td>instagram</td><td>Red social Instagram (footer)</td></tr>
+          <tr><td>facebook</td><td>Red social Facebook (footer)</td></tr>
+          <tr><td>linkedin</td><td>Red social LinkedIn (footer)</td></tr>
+          <tr><td>twitter</td><td>Red social Twitter/X (footer)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ──────── CONTACTO ──────── -->
+    <div class="section" id="contacto">
+      <div class="section-header">
+        <div class="section-num" style="background:var(--oscuro)">✉</div>
+        <h2>Método de contacto</h2>
+      </div>
+      <p style="margin-bottom:1.25rem">Todos los botones de la página (navbar, hero, servicios, CTA final) usan el canal definido en <code style="font-family:monospace">CONFIG.contacto</code>. Cambiar <code style="font-family:monospace">tipo</code> y <code style="font-family:monospace">valor</code> actualiza <em>toda</em> la página automáticamente — ícono, link y comportamiento.</p>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Solo hay <strong>dos campos</strong>: <code style="font-family:monospace">tipo</code> (el canal) y <code style="font-family:monospace">valor</code> (el dato de ese canal). Nada más.</span>
+      </div>
+
+      <div class="code-block">
+        <pre><span class="c">// ── WhatsApp (por defecto)</span>
+<span class="k">contacto</span>: { <span class="k">tipo</span>: <span class="s">"whatsapp"</span>,  <span class="k">valor</span>: <span class="s">"526674683970"</span> },
+<span class="c">//  valor = número con código de país, sin signos
+//  México +52 → "52667..."  ·  USA +1 → "1555..."
+//  Los campos 'mensaje' de cada botón se envían como texto pre-escrito.</span>
+
+<span class="c">// ── Instagram</span>
+<span class="k">contacto</span>: { <span class="k">tipo</span>: <span class="s">"instagram"</span>, <span class="k">valor</span>: <span class="s">"mi_negocio"</span> },
+<span class="c">//  valor = usuario sin @ · abre instagram.com/mi_negocio/
+//  Los campos 'mensaje' se ignoran (Instagram no los soporta).</span>
+
+<span class="c">// ── Email</span>
+<span class="k">contacto</span>: { <span class="k">tipo</span>: <span class="s">"email"</span>,     <span class="k">valor</span>: <span class="s">"hola@minegocio.com"</span> },
+<span class="c">//  valor = dirección de correo
+//  Los campos 'mensaje' se usan como asunto del email.</span>
+
+<span class="c">// ── Teléfono</span>
+<span class="k">contacto</span>: { <span class="k">tipo</span>: <span class="s">"telefono"</span>,  <span class="k">valor</span>: <span class="s">"+526671234567"</span> },
+<span class="c">//  valor = número con + y código de país · abre la app de llamadas
+//  Los campos 'mensaje' se ignoran.</span></pre>
+      </div>
+
+      <table>
+        <thead><tr><th>tipo</th><th>Ícono en botones</th><th>Link generado</th><th>Usa mensaje</th></tr></thead>
+        <tbody>
+          <tr><td>whatsapp</td><td>Logo WhatsApp</td><td><code style="font-family:monospace">wa.me/NUMERO?text=...</code></td><td>✅ Sí</td></tr>
+          <tr><td>instagram</td><td>Logo Instagram</td><td><code style="font-family:monospace">instagram.com/USUARIO/</code></td><td>❌ No</td></tr>
+          <tr><td>email</td><td>Sobre / mail</td><td><code style="font-family:monospace">mailto:EMAIL?subject=...</code></td><td>✅ Como asunto</td></tr>
+          <tr><td>telefono</td><td>Teléfono</td><td><code style="font-family:monospace">tel:NUMERO</code></td><td>❌ No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  /* Resalta el link activo en el sidebar al hacer scroll */
+  const sections = document.querySelectorAll('.section[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(function(a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(function(s) { obs.observe(s); });
+</script>
+</body>
+</html>
